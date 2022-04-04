@@ -1,0 +1,18 @@
+version: "3.7"
+services:
+  RedisCore:
+    image: redis:latest
+    container_name: RedisCoreTwo
+    restart: unless-stopped
+    environment: {
+      ALLOW_EMPTY_PASSWORD: "yes"
+    }
+    hostname: RedisCore
+    ports:
+    - "6385:6379"
+    networks: 
+      - creatio-net
+  
+networks:
+  creatio-net:
+    driver: bridge

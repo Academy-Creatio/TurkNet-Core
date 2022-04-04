@@ -1,0 +1,24 @@
+version: "3.7"
+services:
+  Creatio:
+    container_name: "CreatioStudio"
+    image: creatiostudio
+    hostname: Creatio
+    restart: always
+    environment:
+      https_port_number: 5102
+      http_port_number: 5100
+    volumes:
+    - /c/CoreTwo/7.18.5.1501_Studio_Linux_Softkey_PostgreSQL_ENU_NetCore:/app
+    ports:
+    - "5100:5000"
+    - "5102:5002"
+    depends_on:
+      - "PostgresDbCoreTwo"
+      - "RedisCoreTwo"
+    networks:
+      - creatio-net
+  
+networks:
+  creatio-net:
+    driver: bridge

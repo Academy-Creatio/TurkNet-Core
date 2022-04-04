@@ -1,0 +1,40 @@
+version: "3.7"
+services:
+  PostgresDbCore:
+    container_name: "PostgresDbCore"
+    image: postgres
+    hostname: PostgresDbCore
+    restart: always
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: Supervisor
+      POSTGRES_PASSWORD: Supervisor
+      PGDATA: /var/lib/postgresql/data
+    volumes:
+      - /c/DockerCompose/Volumes/PostgreSQLCore:/var/lib/postgresql/data
+      - /c/DockerCompose/Volumes/DbImagesCore:/usr/local/db
+    ports:
+      - "5434:5432"
+    networks: 
+      - creatio-net
+
+  pgadmin:
+    container_name: "pgAdminTwo"
+    image: dpage/pgadmin4
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: k.krylov@creatio.com
+      PGADMIN_DEFAULT_PASSWORD: Supervisor
+      PGADMIN_LISTEN_PORT: 80
+    ports:
+      - "9086:80"
+    volumes:
+      - /c/DockerCompose/Volumes/PgAdminCore:/var/lib/pgadmin
+    links:
+      - "db:PostgresDbCore"
+    networks: 
+      - creatio-net
+
+networks:
+  creatio-net:
+    driver: bridge
